@@ -1,0 +1,29 @@
+{
+    "C_Cpp.clang_format_style": "{ BasedOnStyle: Google, IndentWidth: 4, ColumnLimit: 0, NamespaceIndentation: All}",
+    "C_Cpp.vcFormat.newLine.beforeOpenBrace.block": "sameLine",
+    "C_Cpp.vcFormat.newLine.beforeOpenBrace.type": "sameLine",
+    "C_Cpp.vcFormat.newLine.beforeOpenBrace.function": "sameLine",
+    "C_Cpp.vcFormat.space.pointerReferenceAlignment": "left",
+    "C_Cpp.clang_format_sortIncludes": true,
+    "C_Cpp.vcFormat.indent.namespaceContents": true,
+    "workbench.colorCustomizations": {
+        "activityBar.activeBackground": "#511db5",
+        "activityBar.background": "#511db5",
+        "activityBar.foreground": "#e7e7e7",
+        "activityBar.inactiveForeground": "#e7e7e799",
+        "activityBarBadge.background": "#c0561f",
+        "activityBarBadge.foreground": "#e7e7e7",
+        "commandCenter.border": "#e7e7e799",
+        "sash.hoverBorder": "#511db5",
+        "statusBar.background": "#3d1689",
+        "statusBar.foreground": "#e7e7e7",
+        "statusBarItem.hoverBackground": "#511db5",
+        "statusBarItem.remoteBackground": "#3d1689",
+        "statusBarItem.remoteForeground": "#e7e7e7",
+        "titleBar.activeBackground": "#3d1689",
+        "titleBar.activeForeground": "#e7e7e7",
+        "titleBar.inactiveBackground": "#3d168999",
+        "titleBar.inactiveForeground": "#e7e7e799"
+    },
+    "peacock.color": "#3d1689"
+}
