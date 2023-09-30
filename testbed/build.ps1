@@ -9,7 +9,7 @@ $assembly="testbed"
 $compilerFlags="-g"
 $includeFlags="-Isrc -I../engine/src/"
 $linkerFlags="-lengine -L../bin/ "
-$defines="-D_DEBUG -DKIMPORT"
+$defines="-D_DEBUG -DCIMPORT"
 
 Write-Host "Building $assembly ..."
 

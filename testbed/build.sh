@@ -8,7 +8,7 @@ assembly="testbed"
 compilerFlags="-g -fdeclspec -fPIC" 
 includeFlags="-Isrc -I../engine/src/"
 linkerFlags="-L../bin/ -lengine -Wl,-rpath,."
-defines="-D_DEBUG -DKIMPORT"
+defines="-D_DEBUG -DCIMPORT"
 
 echo "Building $assembly..."
 

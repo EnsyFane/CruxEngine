@@ -9,7 +9,7 @@ $assembly="engine"
 $compilerFlags="-g -shared -Wvarargs -Wall -Werror"
 $includeFlags="-Isrc -I$env:VULKAN_SDK/Include"
 $linkerFlags="-luser32 -lvulkan-1 -L$env:VULKAN_SDK/Lib"
-$defines="-D_DEBUG -DKEXPORT -D_CRT_SECURE_NO_WARNINGS"
+$defines="-D_DEBUG -DCEXPORT -D_CRT_SECURE_NO_WARNINGS"
 
 Write-Host "Building $assembly ..."
 
