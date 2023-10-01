@@ -6,7 +6,16 @@
 #include <string.h>
 #include <stdarg.h>
 
-void Logger::LogMessage(LogLevel level, const char* message, ...) const {
+bool Logger::InitializeLogging() {
+    // TODO: create log file.
+    return true;
+}
+
+void Logger::StopLogger() {
+    // TODO: cleanup logging/write queued entries.
+}
+
+void Logger::LogMessage(LogLevel level, const char* file, int line, const char* message, ...) {
     time_t now;
     time(&now);
     char isoTime[sizeof "2000-02-26T00:00:00Z"];
@@ -21,7 +30,7 @@ void Logger::LogMessage(LogLevel level, const char* message, ...) const {
     va_end(arg_ptr);
 
     char finalMessage[32000];
-    sprintf(finalMessage, "%s | [%s]\t| %s", isoTime, _logLevelStrings[level], originalMessage);
+    sprintf(finalMessage, "%s | [%s]\t| %s | %s:%d", isoTime, _logLevelStrings[level], originalMessage, file, line);
 
     // TODO: platform-specific output.
     printf("%s\n", finalMessage);

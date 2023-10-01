@@ -37,60 +37,37 @@ typedef enum LogLevel {
 
 class CAPI Logger {
 private:
-    void LogMessage(LogLevel level, const char* message, ...) const;
-    const char* _logLevelStrings[6] = {"FATAL", "ERROR", "WARN", "INFO", "DEBUG", "TRACE"};
+    static constexpr const char* _logLevelStrings[6] = {"FATAL", "ERROR", "WARN", "INFO", "DEBUG", "TRACE"};
 
 public:
-    b8 InitializeLogging();
-    void StopLogger();
+    static bool InitializeLogging();
+    static void StopLogger();
+    static void LogMessage(LogLevel level, const char* file, int line, const char* message, ...);
 
-    template<typename... Args> 
-    void LogFatal(const char* message, Args... args) {
-        LogMessage(LOG_LEVEL_FATAL, message, args...);
-    }
-
-    template<typename... Args> 
-    void LogError(const char* message, Args... args) {
-        LogMessage(LOG_LEVEL_ERROR, message, args...);
-    }
+#define LOG_FATAL(message, ...) Logger::LogMessage(LOG_LEVEL_FATAL, __FILE__, __LINE__, message, __VA_ARGS__)
+#define LOG_ERROR(message, ...) Logger::LogMessage(LOG_LEVEL_ERROR, __FILE__, __LINE__, message, __VA_ARGS__)
 
 #if ENABLE_LOG_WARN == 1
-    template<typename... Args> 
-    void LogWarning(const char* message, Args... args) {
-        LogMessage(LOG_LEVEL_WARN, message, args...);
-    }
+    #define LOG_WARNING(message, ...) Logger::LogMessage(LOG_LEVEL_WARN, __FILE__, __LINE__, message, __VA_ARGS__)
 #else
-    template<typename... Args> 
-    void LogWarning(const char* message, Args... args) {}
+    #define LOG_WARNING(message, ...)
 #endif
 
 #if ENABLE_LOG_INFO == 1
-    template<typename... Args> 
-    void LogInformation(const char* message, Args... args) {
-        LogMessage(LOG_LEVEL_INFO, message, args...);
-    }
+    #define LOG_INFO(message, ...) Logger::LogMessage(LOG_LEVEL_INFO, __FILE__, __LINE__, message, __VA_ARGS__)
 #else
-    template<typename... Args> 
-    void LogInformation(const char* message, Args... args) { }
+    #define LOG_INFO(message, ...)
 #endif
 
 #if ENABLE_LOG_DEBUG == 1
-    template<typename... Args> 
-    void LogDebug(const char* message, Args... args) {
-        LogMessage(LOG_LEVEL_DEBUG, message, args...);
-    }
+    #define LOG_DEBUG(message, ...) Logger::LogMessage(LOG_LEVEL_DEBUG, __FILE__, __LINE__, message, __VA_ARGS__)
 #else
-    template<typename... Args> 
-    void LogDebug(const char* message, Args... args) { }
+    #define LOG_DEBUG(message, ...)
 #endif
 
 #if ENABLE_LOG_TRACE == 1
-    template<typename... Args> 
-    void LogTrace(const char* message, Args... args) {
-        LogMessage(LOG_LEVEL_TRACE, message, args...);
-    }
+    #define LOG_TRACE(message, ...) Logger::LogMessage(LOG_LEVEL_TRACE, __FILE__, __LINE__, message, __VA_ARGS__)
 #else
-    template<typename... Args> 
-    void LogTrace(const char* message, Args... args) { }
+    #define LOG_TRACE(message, ...)
 #endif
 };
