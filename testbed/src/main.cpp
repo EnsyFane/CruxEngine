@@ -1,5 +1,7 @@
 #include <core/logging/logger.hpp>
 #include <core/assertions/assertions.hpp>
+#include <platform/platform.hpp>
+
 #include <string>
 
 int main(void) {
@@ -10,8 +12,17 @@ int main(void) {
     LOG_DEBUG("Hello, world!");
     LOG_TRACE("Hello, world!");
 
-    CASSERT(1 == 1);
-    CASSERT_MESSAGE(1 == 0, "Expected to fail");
+    Platform platform;
+    if (platform.Initialize("Testbed", 100, 100, 1280, 720)) {
+        LOG_INFO("Platform initialized successfully.");
+        while (true) {
+            platform.PumpMessages();
+        }
+        platform.Stop();
+    } else {
+        LOG_FATAL("Platform failed to initialize.");
+    }
+    
 
     return 0;
 }
