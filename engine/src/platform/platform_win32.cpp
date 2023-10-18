@@ -9,8 +9,9 @@
 #include <stdlib.h>
 
 LRESULT CALLBACK Win32ProcessMessage(HWND handle, unsigned int message, WPARAM wParam, LPARAM lParam);
+void WriteToConsole(HANDLE consoleHandle, const char* message, const LogLevel color);
 
-bool Platform::Initialize(const char* aplicationName, int x, int y, int width, int height) {
+bool Platform::Initialize(const char* aplicationName, const int x, const int y, const int width, const int height) {
     this->_state = (InternalState*)malloc(sizeof(InternalState));
     this->_state->instance = GetModuleHandle(0);
 
@@ -103,7 +104,7 @@ void Platform::Stop() {
 
 bool Platform::PumpMessages() {
     MSG message;
-    while (PeekMessageA(&message, 0, 0, 0, PM_REMOVE)) {
+    while (PeekMessageA(&message, NULL, 0, 0, PM_REMOVE)) {
         TranslateMessage(&message);
         DispatchMessageA(&message);
     }
@@ -111,46 +112,30 @@ bool Platform::PumpMessages() {
     return true;
 }
 
-void* Platform::Allocate(long long int size, bool aligned) {
+void* Platform::Allocate(const long long int size, const bool aligned) {
     return malloc(size);
 }
 
-void Platform::Free(void* block, bool aligned) {
+void Platform::Free(void* block, const bool aligned) {
     free(block);
 }
 
-void* Platform::MemoryZero(void* block, unsigned long long int size) {
-    return memset(block, 0, size);
-}
-
-void* Platform::MemoryCopy(void* destination, const void* source, unsigned long int size) {
+void* Platform::MemoryCopy(void* destination, const void* source, const unsigned long int size) {
     return memcpy(destination, source, size);
 }
 
-void* Platform::MemorySet(void* destination, int value, unsigned long long int size) {
+void* Platform::MemorySet(void* destination, int value, const unsigned long long int size) {
     return memset(destination, value, size);
 }
 
-void Platform::ConsoleWrite(const char* message, unsigned char color) {
+void Platform::ConsoleWrite(const char* message, const LogLevel level) {
     auto consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
-    static unsigned char levels[] = {64, 4, 6, 2, 1, 8};
-    SetConsoleTextAttribute(consoleHandle, levels[color]);
-
-    OutputDebugStringA(message);
-    auto length = strlen(message);
-    LPDWORD written = 0;
-    WriteConsoleA(consoleHandle, message, (DWORD)length, written, 0);
+    WriteToConsole(consoleHandle, message, level);
 }
 
-void Platform::ConsoleWriteError(const char* message, unsigned char color) {
+void Platform::ConsoleWriteError(const char* message, const LogLevel level) {
     auto consoleHandle = GetStdHandle(STD_ERROR_HANDLE);
-    static unsigned char levels[] = {64, 4, 6, 2, 1, 8};
-    SetConsoleTextAttribute(consoleHandle, levels[color]);
-
-    OutputDebugStringA(message);
-    auto length = strlen(message);
-    LPDWORD written = 0;
-    WriteConsoleA(consoleHandle, message, (DWORD)length, written, 0);
+    WriteToConsole(consoleHandle, message, level);
 }
 
 double Platform::GetTime() {
@@ -159,11 +144,12 @@ double Platform::GetTime() {
     return (double)currentTime.QuadPart * _clockFrequency;
 }
 
-void Platform::PSleep(unsigned long long int milliseconds) {
+void Platform::PSleep(const unsigned long long int milliseconds) {
     Sleep(milliseconds);
 }
 
 LRESULT CALLBACK Win32ProcessMessage(HWND handle, unsigned int message, WPARAM wParam, LPARAM lParam) {
+    // TODO: Extract into methods
     switch (message) {
         case WM_ERASEBKGND: {
             return 1;
@@ -216,6 +202,35 @@ LRESULT CALLBACK Win32ProcessMessage(HWND handle, unsigned int message, WPARAM w
     }
 
     return DefWindowProcA(handle, message, wParam, lParam);
+}
+
+static int GetFlagForColor(const LogLevel color)
+{
+    switch (color)
+    {
+        case LOG_LEVEL_FATAL:
+            return BACKGROUND_RED;
+        case LOG_LEVEL_ERROR:
+            return FOREGROUND_RED;
+        case LOG_LEVEL_WARN:
+            return FOREGROUND_RED | FOREGROUND_GREEN;
+        case LOG_LEVEL_INFO:
+            return FOREGROUND_GREEN;
+        case LOG_LEVEL_DEBUG:
+            return FOREGROUND_BLUE;
+        case LOG_LEVEL_TRACE:
+            return FOREGROUND_INTENSITY;
+    };
+}
+
+void WriteToConsole(HANDLE consoleHandle, const char* message, const LogLevel level) {
+    auto color = GetFlagForColor(level);
+    SetConsoleTextAttribute(consoleHandle, color);
+
+    OutputDebugStringA(message);
+    auto length = strlen(message);
+    LPDWORD written = 0;
+    WriteConsoleA(consoleHandle, message, (DWORD)length, written, nullptr);
 }
 
 #endif
