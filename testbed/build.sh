@@ -12,4 +12,4 @@ defines="-D_DEBUG -DCIMPORT"
 
 echo "Building $assembly..."
 
-clang $srcFiles $compilerFlags -o ../bin/$assembly $defines $includeFlags $linkerFlags
+clang++ $srcFiles $compilerFlags -o ../bin/$assembly $defines $includeFlags $linkerFlags

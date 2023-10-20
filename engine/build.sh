@@ -12,4 +12,4 @@ defines="-D_DEBUG -DCEXPORT"
 
 echo "Building $assembly..."
 
-clang $srcFiles $compilerFlags -o ../bin/lib$assembly.so $defines $includeFlags $linkerFlags
+clang++ $srcFiles $compilerFlags -o ../bin/lib$assembly.so $defines $includeFlags $linkerFlags
