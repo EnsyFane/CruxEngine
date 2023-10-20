@@ -7,8 +7,6 @@
 class CAPI Platform {
 private:
     InternalState* _state;
-    double _clockFrequency;
-    LARGE_INTEGER _clockStartTime;
 public:
     bool Initialize(const char* aplicationName, const int x, const int y, const int width, const int height);
     void Stop();

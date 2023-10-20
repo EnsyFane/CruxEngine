@@ -89,8 +89,8 @@ bool Platform::Initialize(const char* aplicationName, const int x, const int y, 
 
     LARGE_INTEGER clockFrequency;
     QueryPerformanceFrequency(&clockFrequency);
-    _clockFrequency = 1.0 / (double)clockFrequency.QuadPart;
-    QueryPerformanceCounter(&_clockStartTime);
+    this->_state->clockFrequency = 1.0 / (double)clockFrequency.QuadPart;
+    QueryPerformanceCounter(&this->_state->clockStartTime);
 
     return true;
 }
@@ -141,7 +141,7 @@ void Platform::ConsoleWriteError(const char* message, const LogLevel level) {
 double Platform::GetTime() const {
     LARGE_INTEGER currentTime;
     QueryPerformanceCounter(&currentTime);
-    return (double)currentTime.QuadPart * _clockFrequency;
+    return (double)currentTime.QuadPart * this->_state->clockFrequency;
 }
 
 void Platform::PSleep(const unsigned long long int milliseconds) const {

@@ -16,6 +16,8 @@ typedef struct InternalState {
     #if CPLATFORM_WINDOWS
         HINSTANCE instance;
         HWND handle;
+        double clockFrequency;
+        LARGE_INTEGER clockStartTime;
     #elif CPLATFORM_LINUX
     #endif
 } InternalState;

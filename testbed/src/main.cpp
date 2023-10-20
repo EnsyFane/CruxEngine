@@ -12,8 +12,10 @@ int main(void) {
     LOG_DEBUG("Hello, world!");
     LOG_TRACE("Hello, world!");
 
+
     Platform platform;
     if (platform.Initialize("Testbed", 100, 100, 1280, 720)) {
+        LOG_INFO("The time is: %f", platform.GetTime());
         LOG_INFO("Platform initialized successfully.");
         while (true) {
             platform.PumpMessages();
