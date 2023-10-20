@@ -22,7 +22,7 @@ public:
     static void ConsoleWrite(const char* message, const LogLevel level);
     static void ConsoleWriteError(const char* message, const LogLevel level);
 
-    double GetTime();
+    double GetTime() const;
 
-    void PSleep(const unsigned long long int milliseconds); 
+    void PSleep(const unsigned long long int milliseconds) const; 
 };

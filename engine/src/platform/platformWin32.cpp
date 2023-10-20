@@ -138,13 +138,13 @@ void Platform::ConsoleWriteError(const char* message, const LogLevel level) {
     WriteToConsole(consoleHandle, message, level);
 }
 
-double Platform::GetTime() {
+double Platform::GetTime() const {
     LARGE_INTEGER currentTime;
     QueryPerformanceCounter(&currentTime);
     return (double)currentTime.QuadPart * _clockFrequency;
 }
 
-void Platform::PSleep(const unsigned long long int milliseconds) {
+void Platform::PSleep(const unsigned long long int milliseconds) const {
     Sleep(milliseconds);
 }
 
