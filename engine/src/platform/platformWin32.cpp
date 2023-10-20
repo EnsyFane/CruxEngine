@@ -64,10 +64,8 @@ bool Platform::Initialize(const char* aplicationName, const int x, const int y, 
         wc.lpszClassName,
         aplicationName,
         windowStyle,
-        windowX,
-        windowY,
-        windowWidth,
-        windowHeight,
+        windowX, windowY,
+        windowWidth, windowHeight,
         0,
         0,
         this->_state->instance,
@@ -204,7 +202,7 @@ LRESULT CALLBACK Win32ProcessMessage(HWND handle, unsigned int message, WPARAM w
     return DefWindowProcA(handle, message, wParam, lParam);
 }
 
-static int GetFlagForColor(const LogLevel color)
+const int GetFlagForColor(const LogLevel color)
 {
     switch (color)
     {

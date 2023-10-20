@@ -46,4 +46,9 @@
             "overviewRulerColor": "rgba(0,0,0,0)"
         }
     ],
+    "files.associations": {
+        "*.asm": "asm-intel-x86-generic",
+        "system_error": "cpp",
+        "chrono": "cpp"
+    },
 }
